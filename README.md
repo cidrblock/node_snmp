@@ -10,17 +10,47 @@
 #### start the render service in another window
 `node render.js`
 
+#### Start graphite
+
+```
+docker run -d --name graphite --restart=always -p 80:80 -p 2003-2004:2003-2004 -p 2023-2024:2023-2024 -p 8125:8125/udp -p 8126:8126 hopsoft/graphite-statsd
+```
+
+#### Start grafana
+
+```
+docker run -i -p 3000:3000 grafana/grafana
+```
+
+
+
 #### modify and post some json
 
 ```
-curl -H "Content-Type: application/json" --data @examples/ifXTable.json http://localhost:8080/poll
+while true
+do
+  curl -s -H "Content-Type: application/json" --data @examples/ifXTable.json http://localhost:8080/poll
+  sleep 30
+done
 ```
+or
+
 ```
-curl -H "Content-Type: application/json" --data @examples/ifTable.json http://localhost:8080/poll
+while true
+do
+  curl -s -H "Content-Type: application/json" --data @examples/ifTable.json http://localhost:8080/poll
+  sleep 30
+done
 ```
 
-#### watch the render window and profit
+#### login to you grafana instance
 
+admin/admin
+http://localhost:3000
+
+and add graphite as a data source
+
+http://localhost
 ```
 [nodemon] starting `node render.js`
 

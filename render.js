@@ -3,6 +3,8 @@ var app        = express();
 var bodyParser = require('body-parser');
 var port       = process.env.PORT || 8081;
 var router     = express.Router();
+var graphite   = require('graphite');
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -19,8 +21,14 @@ router.post('/render', function(req, res) {
 app.use('/', router);
   app.listen(port);
 
+function sanitize(metric) {
+  metric = metric.replace(/\s+/g, '_')
+  metric = metric.replace(/\//g, '-')
+  metric = metric.replace(/[^a-zA-Z_\-0-9\.]/g, '');
+  return metric
+}
 function tablePoll(payload) {
-  metrics = [];
+  metrics = {};
   for (i in payload.metrics) {
     for (j in payload.columns[payload.metrics[i]].values) {
       metric = []
@@ -41,9 +49,22 @@ function tablePoll(payload) {
             break;
         }
       }
+      var key = sanitize(metric.join('.'))
       var value = payload.columns[payload.metrics[i]].values[j]
-      metrics.push(metric.join('.') + " " + value) // for (k in request.metricFormat)
-    } // for (j in request.metrics)
+      metrics[key] = value
+    }
   }
-  console.log(metrics)
+  sendToGraphite(payload, metrics)
+}
+
+function sendToGraphite(payload, metrics) {
+  var client = graphite.createClient('plaintext://localhost:2003/');
+  var flat = graphite.flatten(metrics)
+  client.write(flat, function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(Date())
+    }
+  });
 }
