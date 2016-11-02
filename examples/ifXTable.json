@@ -1,0 +1,32 @@
+{
+	"type": "table",
+	"community":"public",
+	"device":"router1",
+	"oid": "1.3.6.1.2.1.31.1.1",
+  "metrics": ["6","10"],
+  "metricFormat": [
+    { "type": "string", "value": "someMetricPrefix" },
+    { "type": "key", "value": "device"},
+    { "type": "reference", "column": "1"},
+    { "type": "metric", "column": "name"}
+  ],
+	"columns": {
+		"1": {
+			"name": "ifName",
+			"type": "OctetString"
+		},
+		"6": {
+			"name": "ifHCInOctets",
+			"type": "Counter64"
+		},
+		"10": {
+			"name": "ifHCOutOctets",
+			"type": "Counter64"
+		},
+		"18": {
+			"name": "ifAlias",
+			"type": "OctetString"
+		}
+	},
+  "renderURL": "http://localhost:8081/render"
+}

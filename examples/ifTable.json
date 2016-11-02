@@ -1,0 +1,28 @@
+{
+	"type": "table",
+	"community":"public",
+	"device":"router1",
+	"oid": "1.3.6.1.2.1.2.2",
+  "metrics": ["7","8"],
+  "metricFormat": [
+    { "type": "string", "value": "someMetricPrefix" },
+    { "type": "key", "value": "device"},
+    { "type": "reference", "column": "2"},
+    { "type": "metric", "column": "name"}
+  ],
+	"columns": {
+		"2": {
+			"name": "ifDescr",
+			"type": "OctetString"
+		},
+		"7": {
+			"name": "ifAdminStatus",
+			"type": "Integer"
+		},
+		"8": {
+			"name": "ifOperStatus",
+			"type": "Integer"
+		}
+	},
+  "renderURL": "http://localhost:8081/render"
+}
