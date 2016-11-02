@@ -1,20 +1,29 @@
 ### telemtry micro service
 
-#### start the poller server in one terminal
+#### install modules
+
+`npm install`
+
+#### start the poller service in one terminal
 `node poll.js`
 
-#### start the render server in another window
+#### start the render service in another window
 `node render.js`
 
 #### modify and post some json
 
 ```
 curl -H "Content-Type: application/json" --data @examples/ifXTable.json http://localhost:8080/poll
-
+```
+```
+curl -H "Content-Type: application/json" --data @examples/ifTable.json http://localhost:8080/poll
+```
 
 #### watch the render window and profit
 
+```
 [nodemon] starting `node render.js`
+
 [ 'someMetricPrefix.router1.Vlan1.ifHCInOctets 0',
   'someMetricPrefix.router1.Vlan99.ifHCInOctets 4210199460',
   'someMetricPrefix.router1.Vlan2199.ifHCInOctets 503955557797',
@@ -93,6 +102,8 @@ curl -H "Content-Type: application/json" --data @examples/ifXTable.json http://l
   'someMetricPrefix.router1.Ethernet4/6.ifHCOutOctets 146308032',
   'someMetricPrefix.router1.Ethernet4/7.ifHCOutOctets 146308032',
   'someMetricPrefix.router1.Ethernet4/8.ifHCOutOctets 146308032' ]
+
+
   [ 'someMetricPrefix.router1.Vlan1.ifAdminStatus 2',
     'someMetricPrefix.router1.Vlan99.ifAdminStatus 1',
     'someMetricPrefix.router1.Vlan2199.ifAdminStatus 1',
